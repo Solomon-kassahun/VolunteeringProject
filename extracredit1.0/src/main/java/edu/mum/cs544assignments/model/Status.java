@@ -8,5 +8,5 @@ package edu.mum.cs544assignments.model;
  *
  */
 public enum Status {
-	COMPLETED, ONGOING, DELAYED, SUSPENDED;
+	NOT_STARTED, COMPLETED, ONGOING, DELAYED, SUSPENDED;
 }

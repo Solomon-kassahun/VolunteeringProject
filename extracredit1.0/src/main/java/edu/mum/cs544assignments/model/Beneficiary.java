@@ -1,9 +1,11 @@
 package edu.mum.cs544assignments.model;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -12,57 +14,97 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class Beneficiary {
 	@Id
 	@GeneratedValue
-	private int id;
-	@OneToOne
-	@PrimaryKeyJoinColumn
-	private Person person;
-	private String benNum;
+	private int id;	
+	
+	private String name;
+	
+	@Lob
+	private byte[] benPicture;
+	
+	@Embedded
+	private Address address;
+	
 	@ManyToOne
 	@JoinColumn
 	private Project project;
 	
-	public Beneficiary(){
-		
+
+	public Beneficiary(){}
+	
+	public Beneficiary(String name){
+		this.name = name;
 	}
-	public Beneficiary(Person person){
-		this.person = person;
-	}
+	//Getters and Setters
+
 	/**
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	/**
-	 * @return the person
+	 * @return the name
 	 */
-	public Person getPerson() {
-		return person;
+	public String getName() {
+		return name;
 	}
+
 	/**
-	 * @param person the person to set
+	 * @param name the name to set
 	 */
-	public void setPerson(Person person) {
-		person.setId(id);
-		this.person = person;
+	public void setName(String name) {
+		this.name = name;
 	}
+
 	/**
-	 * @return the benNum
+	 * @return the benPicture
 	 */
-	public String getBenNum() {
-		return benNum;
+	public byte[] getBenPicture() {
+		return benPicture;
 	}
+
 	/**
-	 * @param benNum the benNum to set
+	 * @param benPicture the benPicture to set
 	 */
-	public void setBenNum(String benNum) {
-		this.benNum = benNum;
+	public void setBenPicture(byte[] benPicture) {
+		this.benPicture = benPicture;
 	}
+
+	/**
+	 * @return the address
+	 */
+	public Address getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the project
+	 */
+	public Project getProject() {
+		return project;
+	}
+
+	/**
+	 * @param project the project to set
+	 */
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	
 	
 }

@@ -3,11 +3,14 @@
  */
 package edu.mum.cs544assignments.model;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -16,17 +19,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
  *
  */
 @Entity
-public class User {
-	@Id
-	@GeneratedValue
-	private int id;
-	private String userId;
-	@OneToOne
-	@PrimaryKeyJoinColumn
-	private Person person;
-	@Enumerated
+@DiscriminatorValue("User")
+public class User extends Person{
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
-	@OneToOne
+	
+	@ManyToOne
 	@JoinColumn(name="project")
 	private Project project;
 	
@@ -34,25 +32,11 @@ public class User {
 		
 	}
 	
-	public User(Person person){
-		this.person = person;
+	public User(String fName, String lName, UserRole role){
+		super(fName, lName);
+		this.role = role;		
 	}
-
-	/**
-	 * @return the person
-	 */
-	public Person getPerson() {
-		return person;
-	}
-
-	/**
-	 * @param person the person to set
-	 */
-	public void setPerson(Person person) {
-		person.setId(id);
-		this.person = person;
-	}
-
+	
 	/**
 	 * @return the role
 	 */
@@ -68,35 +52,6 @@ public class User {
 	}
 	
 	
-
-	/**
-	 * @return the userId
-	 */
-	public String getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	/**
 	 * @return the project
 	 */

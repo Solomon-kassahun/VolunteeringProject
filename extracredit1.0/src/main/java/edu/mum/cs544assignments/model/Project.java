@@ -3,15 +3,23 @@
  */
 package edu.mum.cs544assignments.model;
 
-import java.util.*;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -20,30 +28,64 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
+@Table(name="Projects")
 public class Project {
+	
 	@Id
 	@GeneratedValue
 	private int id;
+	
+	private String name;
+	
 	private String description;
-	@Temporal(TemporalType.DATE)
+	
+	@Lob
+	private byte[] projPicture;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
-	@Temporal(TemporalType.DATE)
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
-	@Enumerated
+	
+	@Enumerated(EnumType.STRING)
 	private Status status;
-	@OneToOne
-	@JoinColumn(name="project_admin")
-	private User projectAdmin;
-	@OneToMany(mappedBy="project")
+	
+	private String location;
+	
+	@ElementCollection	
+	private List<String> keywords;
+	
+	@ElementCollection
+	private List<String> resourceTypesNeeded;
+	
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<User> projectAdmins;
+	
+	@OneToMany(mappedBy="project", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<User> volunteers;
-	@OneToMany(mappedBy="project")
+	
+	@OneToMany(mappedBy="project", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Beneficiary> beneficiaries;
-	@OneToMany(mappedBy="project")
+	
+	@OneToMany(mappedBy="project", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Task> tasks;
 	
 	public Project(){
-		
+		projectAdmins = new ArrayList<>();
+		volunteers = new ArrayList<>();
+		tasks = new ArrayList<>();
+		beneficiaries = new ArrayList<>();
+		keywords = new ArrayList<>();
+		resourceTypesNeeded = new ArrayList<>();
 	}
+	
+	public Project(String name){
+		this();
+		this.name = name;
+	}
+	
+	//Getters and setters
 
 	/**
 	 * @return the id
@@ -57,6 +99,63 @@ public class Project {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}	
+	
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	/**
+	 * @return the keywords
+	 */
+	public List<String> getKeywords() {
+		return keywords;
+	}
+
+	/**
+	 * @param keywords the keywords to set
+	 */
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
+	}
+
+	/**
+	 * @return the resourceTypesNeeded
+	 */
+	public List<String> getResourceTypesNeeded() {
+		return resourceTypesNeeded;
+	}
+
+	/**
+	 * @param resourceTypesNeeded the resourceTypesNeeded to set
+	 */
+	public void setResourceTypesNeeded(List<String> resourceTypesNeeded) {
+		this.resourceTypesNeeded = resourceTypesNeeded;
 	}
 
 	/**
@@ -71,6 +170,20 @@ public class Project {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	/**
+	 * @return the projPicture
+	 */
+	public byte[] getProjPicture() {
+		return projPicture;
+	}
+
+	/**
+	 * @param projPicture the projPicture to set
+	 */
+	public void setProjPicture(byte[] projPicture) {
+		this.projPicture = projPicture;
 	}
 
 	/**
@@ -115,18 +228,47 @@ public class Project {
 		this.status = status;
 	}
 
+	
 	/**
-	 * @return the projectAdmin
+	 * @return the projectAdmins
 	 */
-	public User getProjectAdmin() {
-		return projectAdmin;
+	public List<User> getProjectAdmins() {
+		return projectAdmins;
 	}
 
 	/**
-	 * @param projectAdmin the projectAdmin to set
+	 * @param projectAdmins the projectAdmins to set
 	 */
-	public void setProjectAdmin(User projectAdmin) {
-		this.projectAdmin = projectAdmin;
+	public void setProjectAdmins(List<User> projectAdmins) {
+		this.projectAdmins = projectAdmins;
+	}
+
+	/**
+	 * @return the volunteers
+	 */
+	public List<User> getVolunteers() {
+		return volunteers;
+	}
+
+	/**
+	 * @param volunteers the volunteers to set
+	 */
+	public void setVolunteers(List<User> volunteers) {
+		this.volunteers = volunteers;
+	}
+
+	/**
+	 * @return the beneficiaries
+	 */
+	public List<Beneficiary> getBeneficiaries() {
+		return beneficiaries;
+	}
+
+	/**
+	 * @param beneficiaries the beneficiaries to set
+	 */
+	public void setBeneficiaries(List<Beneficiary> beneficiaries) {
+		this.beneficiaries = beneficiaries;
 	}
 
 	/**
@@ -142,6 +284,7 @@ public class Project {
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
 	}
+	//End of getters and setters
 	
 	public void addTask(Task task){
 		if(tasks == null){
@@ -165,5 +308,61 @@ public class Project {
 		volunteers.add(volunteer);
 	}
 	
+	public void addProjAdmin(User admin){
+		if(projectAdmins == null){
+			projectAdmins = new ArrayList<User>();
+		}
+		admin.setRole(UserRole.ADMINISTRATOR);
+		projectAdmins.add(admin);
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("Project name: %s\nProject location: %s\nStart date: %s\nEnd date: %s\n", 
+				name, location, startDate, endDate);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;		
+		if (id != other.id)
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		
+		return true;
+	}	
 	
 }
