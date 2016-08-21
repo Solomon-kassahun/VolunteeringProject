@@ -7,6 +7,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 @Table(name="users")
 public abstract class Person {
 	@Id
+	@GeneratedValue
 	private int id;
 	
 	private String firstName;

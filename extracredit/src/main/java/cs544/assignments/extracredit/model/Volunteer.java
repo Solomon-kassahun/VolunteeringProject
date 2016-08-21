@@ -6,9 +6,11 @@ package cs544.assignments.extracredit.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
@@ -19,7 +21,7 @@ import javax.persistence.OneToOne;
 @Entity
 @DiscriminatorValue("HR")
 public class Volunteer extends Resource{
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn
 	private Person person;
 	
