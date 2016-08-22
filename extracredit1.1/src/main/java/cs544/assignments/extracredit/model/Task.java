@@ -42,6 +42,8 @@ public class Task {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
+	private String resourcesNeeded;
+	
 	@ManyToOne
 	@JoinColumn
 	private Project project;
@@ -152,36 +154,20 @@ public class Task {
 		return String.format("Task description: %s\nProject: %s\nTask start date: %s\nTask end date: %s\n", description, project.getName(), startDate, endDate);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * @return the resourcesNeeded
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-		return result;
+	public String getResourcesNeeded() {
+		return resourcesNeeded;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * @param resourcesNeeded the resourcesNeeded to set
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Task other = (Task) obj;		
-		if (id != other.id)
-			return false;		
-		return true;
+	public void setResourcesNeeded(String resourcesNeeded) {
+		this.resourcesNeeded = resourcesNeeded;
 	}
-	
-	
+
+		
 	
 }

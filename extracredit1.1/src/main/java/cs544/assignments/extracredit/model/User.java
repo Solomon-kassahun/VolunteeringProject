@@ -24,12 +24,20 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
-	@ManyToOne
-	@JoinColumn(name="project")
-	private Project project;
+	private String firstName;
+	private String lastName;
+	private String username;
+	private String password;
 	
 	public User(){
 		
+	}
+	
+	public User(String fName, String lName, String username, String password){
+		this.firstName = fName;
+		this.lastName = lName;
+		this.username = username;
+		this.password = password;
 	}
 	
 	/**
@@ -45,22 +53,76 @@ public class User {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
-	
-	
+
 	/**
-	 * @return the project
+	 * @return the id
 	 */
-	public Project getProject() {
-		return project;
+	public int getId() {
+		return id;
 	}
 
 	/**
-	 * @param project the project to set
+	 * @param id the id to set
 	 */
-	public void setProject(Project project) {
-		this.project = project;
+	public void setId(int id) {
+		this.id = id;
 	}
-	
+
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return lastName;
+	}
+
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 		
 
 }
